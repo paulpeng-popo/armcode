@@ -1,6 +1,7 @@
     .global main
     .extern scanf
     .extern printf
+    .align  2
 
     .data
 fmt_in:
