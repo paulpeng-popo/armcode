@@ -1,15 +1,19 @@
-GCC = arm-none-eabi-gcc
-EXE = arm-none-eabi-run
-FLAG = generic-hosted.ld
-TARGET = a
-ARGV = 123456Hello World!123456
-QUOTE = "
+AS = as
+LD = ld
+GCC = gcc
+
+SRC = $(wildcard *.s)
+OBJ = $(SRC:.s=.o)
+EXE = $(SRC:.s=)
 
 all:
-	@$(GCC) $(TARGET).S -T $(FLAG)
-	@echo make $(TARGET).S
-	@$(EXE) a.out $(QUOTE)$(ARGV)$(QUOTE)
+	$(AS) -o $(OBJ) $(SRC)
+	$(GCC) -o $(EXE) $(OBJ) -static
 
+run: all
+	@./$(EXE) "Hello, World!"
+
+.PHONY: clean
 clean:
-	@del a.out
-	@echo clean done
+	@rm -f $(OBJ) $(EXE)
+	@echo "Clean done"
