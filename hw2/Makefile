@@ -1,15 +1,16 @@
-GCC = arm-none-eabi-gcc
-EXE = arm-none-eabi-run
-COMPIL = generic-hosted.ld
-TARGET = a
-ARGV = 13 12 3
+AS = as
+LD = ld
+GCC = gcc
+
+SRC = $(wildcard *.s)
+OBJ = $(SRC:.s=.o)
+EXE = $(SRC:.s=)
 
 all:
-	@$(GCC) $(TARGET).S -T $(COMPIL)
-	@echo make $(TARGET).S success
-	@$(EXE) a.out $(ARGV)
+	$(AS) -o $(OBJ) $(SRC)
+	$(GCC) -o $(EXE) $(OBJ) -static
 
 .PHONY: clean
 clean:
-	@del a.out
-	@echo clean done
+	@rm -f $(OBJ) $(EXE)
+	@echo "Clean done"
